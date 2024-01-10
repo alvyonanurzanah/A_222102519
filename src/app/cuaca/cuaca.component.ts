@@ -26,10 +26,10 @@ export class CuacaComponent implements OnInit,AfterViewInit{
             "targets" : 0,
             "render" : function (data: string)
             {
-              var waktu = moment(data + "UTC");
+              var waktu = moment(data + " UTC ");
               console.log(waktu);
 
-              var html = waktu.local().format("YYYY-MD-DD") + "<br />" + waktu.local().format("HH:mm")+ "WIB";
+              var html = waktu.local().format("YYYY-MM-DD") + "<br />" + waktu.local().format("HH:mm") + " " ;
               return html;
             }
           },
@@ -58,6 +58,16 @@ export class CuacaComponent implements OnInit,AfterViewInit{
     
     this.bind_table1();
   }
+  setSun(data: any): void {
+       var city = data.city;
+       $('#sunrise').html(this.convertTimestamp(city.sunrise));
+       $('#sunset').html(this.convertTimestamp(city.sunset));
+      }
+  convertTimestamp(timestamp: any): any {
+    var date = new Date(timestamp * 1000);
+    const formattedTime = date.toLocaleDateString('id-ID') + ' ' + date.toLocaleTimeString('id-ID');
+    return formattedTime;
+   }
 
   bind_table1(): void {
     this.http.get("https://api.openweathermap.org/data/2.5/forecast?id=1630789&appid=3ce001a40393540d4e9a027e45c7c283")
